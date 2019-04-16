@@ -1,0 +1,116 @@
+trigger:
+- azure-pipelines
+
+jobs:
+- job: Group1
+  
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: make arm_sdk_install
+    displayName: 'make arm_sdk_install'
+  - script: make targets-group-1
+    displayName: 'make targets-group-1'
+  - powershell: Set-Content -Path '$(System.DefaultWorkingDirectory)/obj/log.txt' -Value $env:BUILD_SOURCEVERSIONMESSAGE
+  - task: CopyFiles@2
+    inputs:
+      contents: 'obj/*.hex'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: betaflight-group1
+
+- job: Group2
+  
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: make arm_sdk_install
+    displayName: 'make arm_sdk_install'
+  - script: make targets-group-2
+    displayName: 'make targets-group-2'
+  - powershell: Set-Content -Path '$(System.DefaultWorkingDirectory)/obj/log.txt' -Value $env:BUILD_SOURCEVERSIONMESSAGE
+  - task: CopyFiles@2
+    inputs:
+      contents: 'obj/*.hex'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: betaflight-group2
+
+- job: Group3
+  
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: make arm_sdk_install
+    displayName: 'make arm_sdk_install'
+  - script: make targets-group-3
+    displayName: 'make targets-group-3'
+  - powershell: Set-Content -Path '$(System.DefaultWorkingDirectory)/obj/log.txt' -Value $env:BUILD_SOURCEVERSIONMESSAGE
+  - task: CopyFiles@2
+    inputs:
+      contents: 'obj/*.hex'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: betaflight-group3
+
+- job: Group4
+  
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: make arm_sdk_install
+    displayName: 'make arm_sdk_install'
+  - script: make targets-group-4
+    displayName: 'make targets-group-4'
+  - powershell: Set-Content -Path '$(System.DefaultWorkingDirectory)/obj/log.txt' -Value $env:BUILD_SOURCEVERSIONMESSAGE
+  - task: CopyFiles@2
+    inputs:
+      contents: 'obj/*.hex'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: betaflight-group4
+
+- job: Group5
+  
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: make arm_sdk_install
+    displayName: 'make arm_sdk_install'
+  - script: make targets-group-rest
+    displayName: 'make targets-group-rest'
+  - powershell: Set-Content -Path '$(System.DefaultWorkingDirectory)/obj/log.txt' -Value $env:BUILD_SOURCEVERSIONMESSAGE
+  - task: CopyFiles@2
+    inputs:
+      contents: 'obj/*.hex'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: betaflight-group5
+
+- job: Test
+  
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: make arm_sdk_install
+    displayName: 'make arm_sdk_install'
+  - script: sudo apt-get install libblocksruntime-dev
+    displayName: 'install libblocksruntime-dev'
+  - script: make test
+    displayName: 'make test'
